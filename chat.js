@@ -1,24 +1,39 @@
-// 중요! 소스코드의 경로에 한글이 있으면 안 됨
-// npm init -y
-// npm install ws 웹 소켓
-
+const fs = require('fs');
+const http = require('http');
 const WebSocket = require('ws');
 
-const wss = new WebSocket.Server({ port: 8080 });
+// Create an HTTP server // 
+const server = http.createServer((req, res) => {
+  // Serve index.html file (localhost://8080)
+  if (req.url === '/' || req.url === '/index.html') {
+    fs.readFile('index.html', (err, data) => {
+      if (err) {
+        res.writeHead(500);
+        return res.end('Error loading index.html');
+      }
+      res.writeHead(200);
+      res.end(data); // using data(index.html's data) // response body 
+    });
+  }
+});
 
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
+const wss = new WebSocket.Server({ server });
+
+wss.on('connection', (ws) => {
+  console.log('WebSocket connection established');
+  ws.on('message', (message) => {                   // once message comes to server,
     console.log('received: %s', message);
-
-    // 받은 메시지를 모든 클라이언트에게 보냄
-    wss.clients.forEach(function each(client) {
+    // Broadcast incoming message to all clients
+    wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
         client.send(message);
       }
     });
   });
-
   ws.send('Welcome to the chat server!');
 });
 
-console.log('Chat server is running on ws://localhost:8080');
+// listen.. to client's call
+server.listen(8080, () => {
+  console.log('Server is running on http://localhost:8080');
+});

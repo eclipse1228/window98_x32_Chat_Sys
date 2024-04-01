@@ -9,7 +9,7 @@
     <button onclick="sendMessage()">Send</button>
 
     <script>
-        const ws = new WebSocket('ws://localhost:8080');
+        const ws = new WebSocket('ws://localhost:8080'); // 통신 연결, 통신 시작
         const chat = document.getElementById('chat');
         const messageInput = document.getElementById('messageInput');
 
@@ -25,8 +25,8 @@
                 reader.readAsText(event.data);
             } else {
                 // 메시지가 문자열인 경우, 직접 표시
-                const message = document.createElement('p');
-                message.textContent = event.data;
+                const message = document.createElement('p'); // p 태그로 생성
+                message.textContent = event.data; 
                 chat.appendChild(message);
             }
         };
