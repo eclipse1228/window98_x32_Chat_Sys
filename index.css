@@ -1,0 +1,60 @@
+* {
+    font-family: 'DungGeunMo', serif;
+}
+
+/* @font-face {
+    font-family: "WindowsRegular";
+    src: url("font/Windows\ Regular.ttf") format("truetype");
+    font-weight: normal;
+} */
+
+@font-face {
+    font-family: 'DungGeunMo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/DungGeunMo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    text-align: center;
+    background: #818181;
+}
+input {
+    background-color: transparent;
+}
+p {
+    font-size: 80px;
+}
+
+#chat {
+    overflow: scroll;
+    height: 100%;
+
+}
+
+#chat::-webkit-scrollbar {
+    display: none;
+}
+
+#messageInput {
+    margin: 0;
+    flex-grow: 1;
+    height: 100%;
+    font-size: 25px;
+}
+
+#sendButton {
+    margin: 0;
+    height: 100%;
+    font-size: 25px;
+}
+
+#sendView {
+    display: flex;
+    height:60px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+}
+

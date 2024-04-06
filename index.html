@@ -2,12 +2,21 @@
 <html>
 <head>
     <title>Chat App</title>
+    <link rel="stylesheet" href="./index.css">
+    <link
+  rel="stylesheet"
+  href="https://unpkg.com/98.css"
+>
 </head>
+<style>
+    
+</style>
 <body>
     <div id="chat"></div>
-    <input type="text" id="messageInput" placeholder="Type a message...">
-    <button onclick="sendMessage()">Send</button>
-
+    <div id="sendView">
+        <input type="text" id="messageInput" placeholder="Type a message...">
+        <button id="sendButton" onclick="sendMessage()">Send</button>
+    </div>
     <script>
         const ws = new WebSocket('ws://localhost:8080');
         const chat = document.getElementById('chat');
@@ -21,6 +30,7 @@
                     const message = document.createElement('p');
                     message.textContent = reader.result;
                     chat.appendChild(message);
+                    window.scrollTo(0, document.body.scrollHeight)
                 };
                 reader.readAsText(event.data);
             } else {
@@ -28,6 +38,7 @@
                 const message = document.createElement('p');
                 message.textContent = event.data;
                 chat.appendChild(message);
+                window.scrollTo(0, document.body.scrollHeight)
             }
         };
 
@@ -36,6 +47,7 @@
             ws.send(message);
             messageInput.value = '';
         }
+
     </script>
 </body>
 </html>
