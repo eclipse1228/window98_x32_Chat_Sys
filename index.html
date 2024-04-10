@@ -14,7 +14,7 @@
 <body>
     <div id="chat"></div>
     <div id="sendView">
-        <input type="text" id="messageInput" placeholder="Type a message...">
+        <input type="text" id="messageInput" placeholder="Type a message..." onkeydown="enterKey(event)">
         <button id="sendButton" onclick="sendMessage()">Send</button>
     </div>
     <script>
@@ -46,6 +46,12 @@
             const message = messageInput.value;
             ws.send(message);
             messageInput.value = '';
+        }
+
+        function enterKey(event) {
+            if (event.keyCode === 13) {
+                sendMessage();
+            }
         }
 
     </script>
