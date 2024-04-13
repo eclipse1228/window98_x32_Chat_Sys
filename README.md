@@ -17,3 +17,9 @@
 ### 고병수
 - [ ] index.html  -> GET(./)
 - [ ] CSS, index.html -> GET(./)
+
+
+---
+### 정주영
+- [ ] index.html CSS 적용 
+      
