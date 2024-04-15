@@ -12,6 +12,10 @@
     
 </style>
 <body>
+    <div id="nicknameForm">
+        사용하실 닉네임: <input type="text" id="nicknameInput" name="nickname">
+        <button onclick="setNickname()">설정</button>
+    </div>
     <div id="chat"></div>
     <div id="sendView">
         <input type="text" id="messageInput" placeholder="Type a message..." onkeydown="enterKey(event)">
@@ -21,7 +25,13 @@
         const ws = new WebSocket('ws://localhost:8080'); // 통신 연결, 통신 시작
         const chat = document.getElementById('chat');
         const messageInput = document.getElementById('messageInput');
-
+        let nickname = '';
+        
+        function setNickname() {
+            nickname = document.getElementById('nicknameInput').value;// 서버로 닉네임을 전송
+            document.getElementById('nicknameForm').style.display = 'none';
+        }
+        
         ws.onmessage = function(event) {
             // event.data가 Blob 인스턴스일 경우 FileReader를 사용해서 읽어오기
             if (event.data instanceof Blob) {
@@ -33,18 +43,17 @@
                     window.scrollTo(0, document.body.scrollHeight)
                 };
                 reader.readAsText(event.data);
-            } else {
-                // 메시지가 문자열인 경우, 직접 표시
-                const message = document.createElement('p'); // p 태그로 생성
-                message.textContent = event.data; 
+            } else{
+                const message = document.createElement('p');
+                message.textContent = event.data;
                 chat.appendChild(message);
-                window.scrollTo(0, document.body.scrollHeight)
+                window.scrollTo(0, document.body.scrollHeight); 
             }
         };
 
         function sendMessage() {
             const message = messageInput.value;
-            ws.send(message);
+            ws.send(nickname + ':' + message); // 닉네임과 메시지 함께 전송
             messageInput.value = '';
         }
 
@@ -57,3 +66,4 @@
     </script>
 </body>
 </html>
+
