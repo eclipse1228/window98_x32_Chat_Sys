@@ -10,7 +10,6 @@ const server = http.createServer((req, res) => {                // Serve index.h
   if (filePath == './') {
     filePath = './index.html';
   }
-
   const extname = String(path.extname(filePath)).toLowerCase(); // file's extension (ex file.txt -> extname is 'txt') 
   let contentType = 'text/html';                                // Default is html 
   switch (extname) {                                            // Browser autoMatically jenerate Request for additional files (javascripts , css files ..) but We have to set ContentType.
@@ -18,15 +17,18 @@ const server = http.createServer((req, res) => {                // Serve index.h
       contentType = 'text/css';                                 
       break;
   }
-
-    fs.readFile(filePath, (err, data) => {
-      if (err) {
-        res.writeHead(500);
-        return res.end('Error loading file');
-      }
-      res.writeHead(200, {'Content-Type':contentType});         
-      res.end(data, 'utf-8');                                   // using data(index.html's data) // response body 
-      });
+  if (req.url === '/favicon.ico') {
+    res.writeHead(204); // No Content
+    return res.end();
+  }
+  fs.readFile(filePath, (err, data) => {      
+    if (err) {
+      res.writeHead(500);
+      return res.end('Error loading file');
+    }
+    res.writeHead(200, {'Content-Type':contentType});         
+    res.end(data, 'utf-8');                                   // using data(index.html's data) // response body 
+    });
 });
 
 const wss = new WebSocket.Server({ server });
@@ -48,4 +50,4 @@ wss.on('connection', (ws) => {
 // listen.. to client's call
 server.listen(8080, () => {
   console.log('Server is running on http://localhost:8080');
-});
+  });
