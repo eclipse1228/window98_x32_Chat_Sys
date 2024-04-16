@@ -35,17 +35,21 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('WebSocket connection established');
-  ws.on('message', (message) => {                   // Once message comes to server,
+  ws.on('message', (message) => {
     console.log('received: %s', message);
-    // Broadcast incoming message to all clients
+    //TODO : implement 타임 스탬프 메시지 추가
+    const timestamp = new Date().toLocaleTimeString(); // 현재 시간을 "hh:mm:ss" 포맷으로 획득
+    const messageWithTimestamp = `[${timestamp}] ${message}`; // 메시지에 시간 추가
+    // 모든 클라이언트에게 메시지 방송
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
-        client.send(message);
+        client.send(messageWithTimestamp);
       }
     });
   });
   ws.send('Welcome to the chat server!');
 });
+
 
 // listen.. to client's call
 server.listen(8080, () => {

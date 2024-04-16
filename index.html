@@ -34,12 +34,12 @@
         const chat = document.getElementById('chat');
         const messageInput = document.getElementById('messageInput');
         let nickname = '';
-        
+
         function setNickname() {
             nickname = document.getElementById('nicknameInput').value;// 서버로 닉네임을 전송
             document.getElementById('nicknameForm').style.display = 'none';
         }
-        
+
         ws.onmessage = function(event) {
             // event.data가 Blob 인스턴스일 경우 FileReader를 사용해서 읽어오기
             if (event.data instanceof Blob) {
@@ -59,11 +59,21 @@
             }
         };
 
+        //TODO : implement 타임 스탬프 메시지 추가
         function sendMessage() {
             const message = messageInput.value;
-            ws.send(nickname + ':' + message); // 닉네임과 메시지 함께 전송
+            if (!message.trim()) return; // 빈 메시지는 보내지 않음
+            ws.send(nickname + ': ' + message); // 닉네임과 메시지 함께 전송
             messageInput.value = '';
         }
+
+        function enterKey(event) {
+            if (event.keyCode === 13) { // Enter 키 코드
+                sendMessage();
+                event.preventDefault(); // 폼 제출 방지
+            }
+        }
+
 
         function enterKey(event) {
             if (event.keyCode === 13) {
