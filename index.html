@@ -35,10 +35,14 @@
         const messageInput = document.getElementById('messageInput');
         let nickname = '';
 
+        //TODO : implement 첫 입장시 닉네임 출력
         function setNickname() {
-            nickname = document.getElementById('nicknameInput').value;// 서버로 닉네임을 전송
-            document.getElementById('nicknameForm').style.display = 'none';
+            nickname = document.getElementById('nicknameInput').value.trim();
+            if (!nickname) return; // 닉네임이 비어 있으면 반환
+            ws.send('nickname:' + nickname); // 닉네임을 서버로 전송
+            document.getElementById('nicknameForm').style.display = 'none'; // 닉네임 설정 폼 숨기기
         }
+
 
         ws.onmessage = function(event) {
             // event.data가 Blob 인스턴스일 경우 FileReader를 사용해서 읽어오기

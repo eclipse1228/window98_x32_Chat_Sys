@@ -35,20 +35,40 @@ const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws) => {
   console.log('WebSocket connection established');
-  ws.on('message', (message) => {
-    console.log('received: %s', message);
-    //TODO : implement 타임 스탬프 메시지 추가
-    const timestamp = new Date().toLocaleTimeString(); // 현재 시간을 "hh:mm:ss" 포맷으로 획득
-    const messageWithTimestamp = `[${timestamp}] ${message}`; // 메시지에 시간 추가
-    // 모든 클라이언트에게 메시지 방송
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(messageWithTimestamp);
-      }
-    });
+  ws.on('message', (data) => {
+    let message = data;
+    // 메시지가 문자열이 아니면 문자열로 변환
+    if (!(typeof message === 'string' || message instanceof String)) {
+      message = message.toString();
+    }
+    // 닉네임 유무 분기
+    if (message.startsWith('nickname:')) {
+      //TODO implement 입장 메시지 추가
+      const nickname = message.split(':')[1];
+      const entryMessage = `${nickname}님께서 입장하셨습니다.`;
+      console.log(entryMessage);
+      // 모든 클라이언트에게 입장 메시지 방송
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(entryMessage);
+        }
+      });
+    } else {
+      //TODO implement 타임스탬프 메세지 추가
+      const timestamp = new Date().toLocaleTimeString(); // 현재 시간을 "hh:mm:ss" 포맷으로 획득
+      const messageWithTimestamp = `[${timestamp}] ${message}`; // 메시지에 시간 추가
+      // 모든 클라이언트에게 메시지 방송
+      wss.clients.forEach((client) => {
+        if (client.readyState === WebSocket.OPEN) {
+          client.send(messageWithTimestamp);
+        }
+      });
+    }
   });
   ws.send('Welcome to the chat server!');
 });
+
+
 
 
 // listen.. to client's call
