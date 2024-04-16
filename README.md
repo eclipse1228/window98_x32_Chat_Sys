@@ -1,4 +1,4 @@
-# window98_x32_chat_sys  
+# Window98_x32_Chat_Sys  
 **windows98 theme webSocket chatSystem.**    
 Start to   
 ```js
