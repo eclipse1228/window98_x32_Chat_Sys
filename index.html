@@ -8,19 +8,27 @@
   href="https://unpkg.com/98.css"
 >
 </head>
-<style>
-    
+<style> 
+    img { 
+        max-width: 100%;
+        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+    }
 </style>
 <body>
+    <img src="wd98.jpeg" id ="window_img" ></img>
     <div id="nicknameForm">
-        사용하실 닉네임: <input type="text" id="nicknameInput" name="nickname">
-        <button onclick="setNickname()">설정</button>
+        User Name: <input type="text" id="nicknameInput" name="nickname">
+        <button onclick="setNickname()">setting</button>
     </div>
     <div id="chat"></div>
     <div id="sendView">
         <input type="text" id="messageInput" placeholder="Type a message..." onkeydown="enterKey(event)">
         <button id="sendButton" onclick="sendMessage()">Send</button>
     </div>
+
     <script>
         const ws = new WebSocket('ws://localhost:8080'); // 통신 연결, 통신 시작
         const chat = document.getElementById('chat');
@@ -63,6 +71,9 @@
             }
         }
 
+        setTimeout(function() {
+            document.getElementById('window_img').style.display ='none';
+          }, 4000); // 3초 보여주고 꺼지게 만들기 - ByeongSu 4/15
     </script>
 </body>
 </html>
