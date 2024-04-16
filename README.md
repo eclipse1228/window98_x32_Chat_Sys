@@ -1,7 +1,3 @@
-# 과제
-<img width="879" alt="image" src="https://github.com/eclipse1228/window98_x32_Chat_Sys/assets/101668499/df2e2897-965c-4d3f-88d1-b60dda74d781">
-
-
 # window98_x32_chat_sys  
 **windows98 theme webSocket chatSystem.**    
 Start to   
