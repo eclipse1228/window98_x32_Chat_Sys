@@ -3,7 +3,12 @@
 
 
 # window98_x32_chat_sys  
-## menu
+windows98 theme webSocket chatSystem.    
+start to   
+```js
+node chat.js 
+```   
+## Work
 1. 접속 path 설정하기 - 고병수
 2. 채팅창 크기 늘리기 - 정주영
 3. 채팅 엔터로 입력되게 하기 - 박소원
